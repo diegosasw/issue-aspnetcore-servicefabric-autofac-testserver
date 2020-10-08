@@ -1,7 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using SampleStatelessWebApi.Models;
 using SampleStatelessWebApi.Services;
 
 namespace SampleStatelessWebApi.Controllers
@@ -22,11 +21,11 @@ namespace SampleStatelessWebApi.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<WeatherForecast> Get()
+        public async Task<IActionResult> GetWeatherForecasts()
         {
             _logger.LogInformation("Getting forecasts..");
-            var result = _weatherService.GetForecasts();
-            return result;
+            var result = await _weatherService.GetForecasts();
+            return Ok(result);
         }
     }
 }

@@ -1,10 +1,11 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using SampleStatelessWebApi.Models;
 
 namespace SampleStatelessWebApi.Services
 {
     public interface IWeatherService
     {
-        IEnumerable<WeatherForecast> GetForecasts();
+        Task<IEnumerable<WeatherForecast>> GetForecasts();
     }
 }

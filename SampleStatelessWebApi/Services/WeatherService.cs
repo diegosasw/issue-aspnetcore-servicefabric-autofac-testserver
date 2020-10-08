@@ -1,6 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using SampleStatelessWebApi.Models;
 
 namespace SampleStatelessWebApi.Services
@@ -8,15 +7,17 @@ namespace SampleStatelessWebApi.Services
     public class WeatherService
         : IWeatherService
     {
-        public IEnumerable<WeatherForecast> GetForecasts()
+        public Task<IEnumerable<WeatherForecast>> GetForecasts()
         {
-            var result =
+            var hardcodedForecasts =
                 new List<WeatherForecast>
                 {
                     new WeatherForecast("Sunny"),
                     new WeatherForecast("Mild"),
                     new WeatherForecast("Chilly")
                 };
+            var result = Task.FromResult((IEnumerable<WeatherForecast>) hardcodedForecasts);
+            result.ConfigureAwait(false);
             return result;
         }
     }
