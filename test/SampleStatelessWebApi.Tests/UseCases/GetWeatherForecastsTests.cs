@@ -1,10 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using FluentAssertions;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
+using SampleStatelessWebApi.Models;
 using SampleStatelessWebApi.Services;
 using SampleStatelessWebApi.Tests.TestSupport;
 using Xunit;
@@ -13,7 +13,7 @@ namespace SampleStatelessWebApi.Tests.UseCases
 {
     public static class GetWeatherForecastsTests
     {
-        public class Given_The_Url_When_Getting_Weather_Forecasts
+        public class Given_The_Url_And_Mock_Weather_Forecast_Service_When_Getting_Weather_Forecasts
             : IntegrationTest
         {
             private HttpResponseMessage _result;
@@ -27,12 +27,7 @@ namespace SampleStatelessWebApi.Tests.UseCases
                     .Setup(x => x.GetForecasts())
                         .Returns(new List<WeatherForecast>
                         {
-                                new WeatherForecast
-                                {
-                                    Date = new DateTime(2020,10,8,0,0,0,0,DateTimeKind.Utc),
-                                    Summary = "This is a mock forecast",
-                                    TemperatureC = 10
-                                }
+                                new WeatherForecast("Raining cats and dogs")
                         });
 
                 serviceCollection
@@ -41,8 +36,37 @@ namespace SampleStatelessWebApi.Tests.UseCases
 
             protected override void Given()
             {
+                _expectedForecastsJsonResult = "[{\"summary\":\"Raining cats and dogs\"}]";
+            }
+
+            protected override void When()
+            {
+                _result = HttpClient.GetAsync("weatherForecast").GetAwaiter().GetResult();
+            }
+
+            [Fact]
+            public void Then_It_Should_Return_200_Ok()
+            {
+                _result.StatusCode.Should().Be(HttpStatusCode.OK);
+            }
+
+            [Fact]
+            public void Then_It_Should_Return_Mock_Values()
+            {
+                _result.Content.ReadAsStringAsync().Result.Should().BeEquivalentTo(_expectedForecastsJsonResult);
+            }
+        }
+
+        public class Given_The_Url_When_Getting_Weather_Forecasts
+            : IntegrationTest
+        {
+            private HttpResponseMessage _result;
+            private string _expectedForecastsJsonResult;
+
+            protected override void Given()
+            {
                 _expectedForecastsJsonResult =
-                    "[{\"date\":\"2020-10-08T00:00:00Z\",\"temperatureC\":10,\"temperatureF\":49,\"summary\":\"This is a mock forecast\"}]";
+                    "[{\"summary\":\"Sunny\"},{\"summary\":\"Mild\"},{\"summary\":\"Chilly\"}]";
             }
 
             protected override void When()

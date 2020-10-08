@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using SampleStatelessWebApi.Models;
 using SampleStatelessWebApi.Services;
 
 namespace SampleStatelessWebApi.Controllers
