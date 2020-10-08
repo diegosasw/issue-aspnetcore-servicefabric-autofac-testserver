@@ -38,7 +38,7 @@ namespace SampleStatelessWebApi.Tests.UseCases
             }
 
             [Fact]
-            public async Task Then_It_Should_Return_Mock_Values()
+            public async Task Then_It_Should_Return_Expected_Json()
             {
                 var resultAsJson = await _result.Content.ReadAsStringAsync();
                 resultAsJson.Should().BeEquivalentTo(_expectedForecastsJsonResult);
@@ -83,7 +83,7 @@ namespace SampleStatelessWebApi.Tests.UseCases
             }
 
             [Fact]
-            public async Task Then_It_Should_Return_Mock_Values()
+            public async Task Then_It_Should_Return_Expected_Json()
             {
                 var resultAsJson = await _result.Content.ReadAsStringAsync();
                 resultAsJson.Should().BeEquivalentTo(_expectedForecastsJsonResult);
