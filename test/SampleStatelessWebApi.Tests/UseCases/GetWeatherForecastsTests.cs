@@ -16,6 +16,27 @@ namespace SampleStatelessWebApi.Tests.UseCases
 {
     public static class GetWeatherForecastsTests
     {
+        public class Given_The_Url_And_Unauthenticated_Client_When_Getting_Weather_Forecasts
+            : IntegrationTest
+        {
+            private HttpResponseMessage _result;
+
+            protected override void Given()
+            {
+            }
+
+            protected override void When()
+            {
+                _result = HttpClient.GetAsync("weatherForecast").GetAwaiter().GetResult();
+            }
+
+            [Fact]
+            public void Then_It_Should_Return_401_Unauthorized()
+            {
+                _result.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
+            }
+        }
+
         public class Given_The_Url_When_Getting_Weather_Forecasts
             : IntegrationTest
         {
