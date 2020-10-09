@@ -1,3 +1,6 @@
+using System;
+using System.Diagnostics;
+using Autofac;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -22,6 +25,13 @@ namespace SampleStatelessWebApi
             services.AddControllers();
             services.AddAuthentication();
             //services.AddTransient<IWeatherService, WeatherService>();
+        }
+
+        public void ConfigureContainer(ContainerBuilder builder)
+        {
+            // autofac dependencies here?
+            var foo = "bar";
+            throw new Exception("This gets executed!");
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

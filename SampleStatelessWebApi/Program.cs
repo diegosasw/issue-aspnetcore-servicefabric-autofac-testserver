@@ -3,6 +3,7 @@ using System;
 using System.Diagnostics;
 using System.Threading;
 using Autofac.Integration.ServiceFabric;
+using SampleStatelessWebApi.IoCC.Autofac;
 
 namespace SampleStatelessWebApi
 {
@@ -22,7 +23,8 @@ namespace SampleStatelessWebApi
 
                 // Autofac
                 var builder = new ContainerBuilder();
-                builder.RegisterAssemblyModules(typeof(Startup).Assembly);
+                //builder.RegisterAssemblyModules(typeof(Startup).Assembly);
+                builder.RegisterModule<ServicesModule>();
                 builder.RegisterServiceFabricSupport();
                 builder.RegisterStatelessService<SampleStatelessWebApi>("SampleStatelessWebApiType");
 
