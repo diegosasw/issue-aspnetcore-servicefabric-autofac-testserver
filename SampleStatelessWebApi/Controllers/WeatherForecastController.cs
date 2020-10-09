@@ -1,11 +1,13 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using SampleStatelessWebApi.Authentication;
 using SampleStatelessWebApi.Services;
 
 namespace SampleStatelessWebApi.Controllers
 {
     [ApiController]
+    [BasicAuth]
     [Route("[controller]")]
     public class WeatherForecastController : ControllerBase
     {

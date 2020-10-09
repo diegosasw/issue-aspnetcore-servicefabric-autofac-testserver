@@ -2,29 +2,42 @@
 using System.Net.Http;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.TestHost;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using SampleStatelessWebApi.Extensions;
 
 namespace SampleStatelessWebApi.Tests.TestSupport
 {
     public abstract class IntegrationTest
         : IDisposable
     {
+        private readonly IServiceProvider _serviceProvider;
         protected HttpClient HttpClient { get; }
+        protected IConfiguration Configuration { get; }
         protected IntegrationTest()
         {
             var server =
                 new TestServer(
                     new WebHostBuilder()
                         .UseStartup<Startup>()
+                        .UseCommonConfiguration()
+                        .UseEnvironment("Test")
                         .ConfigureTestServices(ConfigureTestServices));
-            HttpClient = server.CreateClient();
 
+            HttpClient = server.CreateClient();
+            _serviceProvider = server.Services;
+            Configuration = _serviceProvider.GetService<IConfiguration>();
             Setup();
         }
 
         public void Dispose()
         {
             Cleanup();
+        }
+
+        protected T GetService<T>() where T: class
+        {
+            return _serviceProvider.GetService<T>();
         }
 
         protected virtual void ConfigureTestServices(IServiceCollection serviceCollection)

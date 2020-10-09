@@ -20,7 +20,7 @@ namespace SampleStatelessWebApi
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-
+            services.AddAuthentication();
             services.AddTransient<IWeatherService, WeatherService>();
         }
 
@@ -33,7 +33,7 @@ namespace SampleStatelessWebApi
             }
 
             app.UseRouting();
-
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

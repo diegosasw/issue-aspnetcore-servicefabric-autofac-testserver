@@ -3,11 +3,13 @@ using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using FluentAssertions;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using SampleStatelessWebApi.Models;
 using SampleStatelessWebApi.Services;
 using SampleStatelessWebApi.Tests.TestSupport;
+using SampleStatelessWebApi.Tests.TestSupport.Extensions;
 using Xunit;
 
 namespace SampleStatelessWebApi.Tests.UseCases
@@ -22,6 +24,9 @@ namespace SampleStatelessWebApi.Tests.UseCases
 
             protected override void Given()
             {
+                var username = Configuration.GetValue<string>("BasicAuthentication:Username");
+                var password = Configuration.GetValue<string>("BasicAuthentication:Password");
+                HttpClient.AddBasicAuthentication(username, password);
                 _expectedForecastsJsonResult =
                     "[{\"summary\":\"Sunny\"},{\"summary\":\"Mild\"},{\"summary\":\"Chilly\"}]";
             }
@@ -68,6 +73,9 @@ namespace SampleStatelessWebApi.Tests.UseCases
 
             protected override void Given()
             {
+                var username = Configuration.GetValue<string>("BasicAuthentication:Username");
+                var password = Configuration.GetValue<string>("BasicAuthentication:Password");
+                HttpClient.AddBasicAuthentication(username, password);
                 _expectedForecastsJsonResult = "[{\"summary\":\"Raining cats and dogs\"}]";
             }
 

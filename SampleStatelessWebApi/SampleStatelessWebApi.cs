@@ -1,16 +1,12 @@
-using System;
 using System.Collections.Generic;
 using System.Fabric;
 using System.IO;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.ServiceFabric.Services.Communication.AspNetCore;
 using Microsoft.ServiceFabric.Services.Communication.Runtime;
 using Microsoft.ServiceFabric.Services.Runtime;
-using Microsoft.ServiceFabric.Data;
+using SampleStatelessWebApi.Extensions;
 
 namespace SampleStatelessWebApi
 {
@@ -29,7 +25,7 @@ namespace SampleStatelessWebApi
         /// <returns>The collection of listeners.</returns>
         protected override IEnumerable<ServiceInstanceListener> CreateServiceInstanceListeners()
         {
-            return new ServiceInstanceListener[]
+            var serviceInstanceListeners = new ServiceInstanceListener[]
             {
                 new ServiceInstanceListener(serviceContext =>
                     new KestrelCommunicationListener(serviceContext, "ServiceEndpoint", (url, listener) =>
@@ -38,6 +34,7 @@ namespace SampleStatelessWebApi
 
                         return new WebHostBuilder()
                                     .UseKestrel()
+                                    .UseCommonConfiguration()
                                     .ConfigureServices(
                                         services => services
                                             .AddSingleton<StatelessServiceContext>(serviceContext))
@@ -48,6 +45,7 @@ namespace SampleStatelessWebApi
                                     .Build();
                     }))
             };
+            return serviceInstanceListeners;
         }
     }
 }
