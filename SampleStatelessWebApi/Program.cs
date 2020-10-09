@@ -1,11 +1,12 @@
-using Microsoft.ServiceFabric.Services.Runtime;
+using Autofac;
 using System;
 using System.Diagnostics;
 using System.Threading;
+using Autofac.Integration.ServiceFabric;
 
 namespace SampleStatelessWebApi
 {
-    internal static class Program
+    public static class Program
     {
         /// <summary>
         /// This is the entry point of the service host process.
@@ -19,13 +20,21 @@ namespace SampleStatelessWebApi
                 // When Service Fabric creates an instance of this service type,
                 // an instance of the class is created in this host process.
 
-                ServiceRuntime.RegisterServiceAsync("SampleStatelessWebApiType",
-                    context => new SampleStatelessWebApi(context)).GetAwaiter().GetResult();
+                // Autofac
+                var builder = new ContainerBuilder();
+                builder.RegisterAssemblyModules(typeof(Startup).Assembly);
+                builder.RegisterServiceFabricSupport();
+                builder.RegisterStatelessService<SampleStatelessWebApi>("SampleStatelessWebApiType");
 
-                ServiceEventSource.Current.ServiceTypeRegistered(Process.GetCurrentProcess().Id, nameof(SampleStatelessWebApi));
+                using (builder.Build())
+                {
+                    ServiceEventSource.Current.ServiceTypeRegistered(
+                        Process.GetCurrentProcess().Id, 
+                        nameof(SampleStatelessWebApi));
 
-                // Prevents this host process from terminating so services keeps running. 
-                Thread.Sleep(Timeout.Infinite);
+                    // Prevents this host process from terminating so services keeps running. 
+                    Thread.Sleep(Timeout.Infinite);
+                }
             }
             catch (Exception e)
             {

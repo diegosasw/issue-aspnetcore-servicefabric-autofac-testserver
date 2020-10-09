@@ -9,7 +9,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="7.0.2" />
+    <PackageReference Include="Autofac.ServiceFabric" Version="3.0.0" />
+    <PackageReference Include="Microsoft.ServiceFabric.Actors" Version="4.1.458" />
     <PackageReference Include="Microsoft.ServiceFabric.AspNetCore.Kestrel" Version="4.1.458" />
   </ItemGroup>
 
