@@ -13,7 +13,7 @@ namespace SampleStatelessWebApi
     /// <summary>
     /// The FabricRuntime creates an instance of this class for each service type instance. 
     /// </summary>
-    internal sealed class SampleStatelessWebApi : StatelessService
+    public class SampleStatelessWebApi : StatelessService
     {
         public SampleStatelessWebApi(StatelessServiceContext context)
             : base(context)
