@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Net.Http;
+using Autofac.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.Configuration;
@@ -21,6 +22,7 @@ namespace SampleStatelessWebApi.Tests.TestSupport
                     new WebHostBuilder()
                         .UseStartup<Startup>()
                         .UseCommonConfiguration()
+                        .ConfigureServices(services => services.AddAutofac())
                         .UseEnvironment("Test")
                         .ConfigureTestServices(ConfigureTestServices));
 

@@ -24,9 +24,6 @@ namespace SampleStatelessWebApi.Extensions
                 }
             });
 
-            // Autofac
-            //builder.ConfigureServices(services => services.AddAutofac());
-
             return builder;
         }
     }

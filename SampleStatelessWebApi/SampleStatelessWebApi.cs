@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Autofac.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.ServiceFabric.Services.Communication.AspNetCore;
@@ -41,8 +42,11 @@ namespace SampleStatelessWebApi
                                     .UseKestrel()
                                     .UseCommonConfiguration() // custom extension to read appsettings
                                     .ConfigureServices(
-                                        services => services
-                                            .AddSingleton<StatelessServiceContext>(serviceContext))
+                                        services =>
+                                        {
+                                            services.AddSingleton<StatelessServiceContext>(serviceContext);
+                                            services.AddAutofac();
+                                        })
                                     .UseContentRoot(Directory.GetCurrentDirectory())
                                     .UseStartup<Startup>()
                                     .UseServiceFabricIntegration(listener, ServiceFabricIntegrationOptions.None)
