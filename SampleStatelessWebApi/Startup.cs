@@ -1,3 +1,6 @@
+using System;
+using Autofac;
+using Autofac.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -17,11 +20,23 @@ namespace SampleStatelessWebApi
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
-        public void ConfigureServices(IServiceCollection services)
+        public IServiceProvider ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
             services.AddAuthentication();
-            services.AddTransient<IWeatherService, WeatherService>();
+            //services.AddTransient<IWeatherService, WeatherService>();
+
+            // Autofac for AspNet Core 2.2 (not valid for AspNetCore 3.1 where generic host is used)
+            var builder = new ContainerBuilder();
+            builder.Populate(services);
+
+            builder
+                .RegisterType<WeatherService>()
+                .As<IWeatherService>()
+                .InstancePerDependency();
+
+            var autofacContainer = builder.Build();
+            return new AutofacServiceProvider(autofacContainer);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Fabric;
 using System.IO;
+using Autofac.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.ServiceFabric.Services.Communication.AspNetCore;
@@ -34,7 +35,7 @@ namespace SampleStatelessWebApi
 
                         return new WebHostBuilder()
                                     .UseKestrel()
-                                    .UseCommonConfiguration()
+                                    .UseCommonConfiguration() // custom extension to have Autofac and appsettings work
                                     .ConfigureServices(
                                         services => services
                                             .AddSingleton<StatelessServiceContext>(serviceContext))
