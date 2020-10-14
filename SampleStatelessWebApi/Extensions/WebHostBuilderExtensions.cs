@@ -1,8 +1,6 @@
 ﻿using System.Reflection;
-using Autofac.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Hosting;
 
 namespace SampleStatelessWebApi.Extensions
 {
@@ -27,7 +25,7 @@ namespace SampleStatelessWebApi.Extensions
             });
 
             // Autofac
-            builder.ConfigureServices(services => services.AddAutofac());
+            //builder.ConfigureServices(services => services.AddAutofac());
 
             return builder;
         }
