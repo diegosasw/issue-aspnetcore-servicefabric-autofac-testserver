@@ -2,7 +2,7 @@
 <Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="packages\Microsoft.VisualStudio.Azure.Fabric.MSBuild.1.7.1\build\Microsoft.VisualStudio.Azure.Fabric.Application.props" Condition="Exists('packages\Microsoft.VisualStudio.Azure.Fabric.MSBuild.1.7.1\build\Microsoft.VisualStudio.Azure.Fabric.Application.props')" />
   <PropertyGroup Label="Globals">
-    <ProjectGuid>a5c0b5ed-2b35-48cd-9168-bc37ade5710e</ProjectGuid>
+    <ProjectGuid>9a7b03be-6414-4394-8808-b8531258f704</ProjectGuid>
     <ProjectVersion>2.5</ProjectVersion>
     <MinToolsVersion>1.5</MinToolsVersion>
     <SupportedMSBuildNuGetPackageVersion>1.7.1</SupportedMSBuildNuGetPackageVersion>
@@ -32,9 +32,7 @@
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\SampleStatelessWebApi\SampleStatelessWebApi.csproj">
-      <ServiceLaunchUrl>http://{MachineName}:{ServicePort}/api/values</ServiceLaunchUrl>
-    </ProjectReference>
+    <ProjectReference Include="..\SampleStatelessWebApi\SampleStatelessWebApi.csproj" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.Common.targets" />
   <PropertyGroup>
